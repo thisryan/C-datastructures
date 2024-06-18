@@ -24,3 +24,9 @@
 #ifndef VECTOR_PREFIX
 #define VECTOR_PREFIX VECTOR_COMB1(VECTOR_NAME, _)
 #endif
+typedef struct VECTOR_NAME VECTOR_NAME;
+struct VECTOR_NAME {
+    VECTOR_T* data;
+    size_t index;
+    size_t amount;
+};
