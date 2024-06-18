@@ -237,6 +237,36 @@ void VECTOR_IMPL(push_back_e) (VECTOR_NAME* v, VECTOR_T data, int* error) {
 
     v->data[v->index++] = data;
 }
+
+void VECTOR_IMPL(insert_e)(VECTOR_NAME* v, VECTOR_T data, size_t index, int* error) {
+    if (error != NULL) *error = 0;
+    if (v == NULL) {
+        if (error != NULL) *error = VERR_NULLPOINTER;
+        return;
+    }
+
+    if (v->index >= v->amount) {
+        v->amount = v->amount ? v->amount * 2 : 1;
+        v->data = realloc(v->data, v->amount * sizeof(VECTOR_T));
+
+        if (v->data == NULL) {
+            if (error != NULL) *error = VERR_OUTOFMEMORY;
+            return;
+        }
+    }
+
+    if (index > v->index || index < 0) {
+        if (error != NULL) *error = VERR_OUTOFBOUNDS;
+        return;
+    }
+
+    for (size_t i = v->index;i > index;i--) {
+        v->data[i] = v->data[i - 1];
+    }
+
+    v->data[index] = data;
+    v->index++;
+}
 #endif
 
 #ifndef SAFE 
