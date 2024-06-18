@@ -70,6 +70,53 @@ VECTOR_T VECTOR_PREFIX_pop_back(VECTOR_NAME* v);
  */
 VECTOR_T VECTOR_PREFIX_remove(VECTOR_NAME* v, size_t index);
 
+/**
+ * @brief Inserts element at the end of the vector with error
+ *
+ * @param v Pointer to the vector
+ * @param data element to be added
+ * @param error Error 0 if no error occured <0 if an error occured, takes on of VERR_ values
+ */
+void VECTOR_PREFIX_push_back_e(VECTOR_NAME* v, VECTOR_T data, int* error);
+
+/**
+ * @brief Insert element at specific index with error
+ *
+ * @param v Pointer to the vector
+ * @param data element to be added
+ * @param index the index of the insertion
+ * @param error Error 0 if no error occured <0 if an error occured, takes on of VERR_ values
+ */
+void VECTOR_PREFIX_insert_e(VECTOR_NAME* v, VECTOR_T data, size_t index, int* error);
+
+/**
+ * @brief Remove element from the end of the vector with error
+ *
+ * @param v Pointer to the vector
+ * @param error Error 0 if no error occured <0 if an error occured, takes on of VERR_ values
+ * @return VECTOR_T the removed element
+ */
+VECTOR_T VECTOR_PREFIX_pop_back_e(VECTOR_NAME* v, int* error);
+
+/**
+ * @brief Remove element from specified index with error
+ *
+ * @param v Pointer to the vector
+ * @param index the index of the deletion
+ * @param error Error 0 if no error occured <0 if an error occured, takes on of VERR_ values
+ * @return VECTOR_T the removed element
+ */
+VECTOR_T VECTOR_PREFIX_remove_e(VECTOR_NAME* v, size_t index, int* error);
+
+/**
+ * @brief
+ *
+ * @param v Pointer to the vector
+ * @param index the index to get
+ * @param error Error 0 if no error occured <0 if an error occured, takes on of VERR_ values
+ * @return VECTOR_T The value at <index> if no error occured
+ */
+VECTOR_T VECTOR_PREFIX_get_e(VECTOR_NAME* v, size_t index, int* error);
 
 /**
  * @brief This is the type which is stored inside the vector. This must be defined
@@ -109,7 +156,7 @@ VECTOR_T VECTOR_PREFIX_remove(VECTOR_NAME* v, size_t index);
 #endif
 
 #ifndef VECTOR_HEADER_H
-// \cond
+      // \cond
 #define VECTOR_HEADER_H
 // \endcond
 
@@ -119,7 +166,43 @@ VECTOR_T VECTOR_PREFIX_remove(VECTOR_NAME* v, size_t index);
 #define VECTOR_IMPL(word) VECTOR_COMB1(VECTOR_PREFIX,word)
 #define VECTOR_COMB1(pre, word) VECTOR_COMB2(pre, word)
 #define VECTOR_COMB2(pre, word) pre##word
+#define NULL_VALUE (VECTOR_T) { 0 };
 // \endcond
+
+/**
+ * @brief Error if the vector argument is NULL
+ *
+ */
+#define VERR_NULLPOINTER -1
+
+ /**
+  * @brief Error if out of memory
+  *
+  */
+#define VERR_OUTOFMEMORY -2
+
+  /**
+   * @brief Error if index is out of bounds
+   *
+   */
+#define VERR_OUTOFBOUNDS -3
+
+   /**
+    * @brief Get the error text object
+    *
+    * @param error the error which occured
+    * @return char* the error text
+    */
+char* get_error_text(int error) {
+    switch (error) {
+    case VERR_NULLPOINTER:
+        return "Input vector was NULL";
+    case VERR_OUTOFBOUNDS:
+        return "Index was out of bounds";
+    case VERR_OUTOFMEMORY:
+        return "out of memory";
+    }
+}
 
 #endif
 
@@ -148,11 +231,24 @@ struct VECTOR_NAME {
 size_t VECTOR_IMPL(size)(VECTOR_NAME* v);
 void VECTOR_IMPL(delete)(VECTOR_NAME* v);
 
+#if defined(SAFE) || defined(ERROR)
+
+void VECTOR_IMPL(push_back_e) (VECTOR_NAME* v, VECTOR_T data, int* error);
+void VECTOR_IMPL(insert_e)(VECTOR_NAME* v, VECTOR_T data, size_t index, int* error);
+VECTOR_T VECTOR_IMPL(pop_back_e)(VECTOR_NAME* v, int* error);
+VECTOR_T VECTOR_IMPL(remove_e)(VECTOR_NAME* v, size_t index, int* error);
+VECTOR_T VECTOR_IMPL(get_e)(VECTOR_NAME* v, size_t index, int* error);
+
+#endif
+
+#ifndef SAFE
 
 void VECTOR_IMPL(push_back)(VECTOR_NAME* v, VECTOR_T data);
 void VECTOR_IMPL(insert)(VECTOR_NAME* v, VECTOR_T data, size_t index);
 VECTOR_T VECTOR_IMPL(pop_back)(VECTOR_NAME* v);
 VECTOR_T VECTOR_IMPL(remove)(VECTOR_NAME* v, size_t index);
+
+#endif
 
 #ifdef IMPLEMENT
 
@@ -166,6 +262,115 @@ void VECTOR_IMPL(delete)(VECTOR_NAME* v) {
     v->index = 0;
 }
 
+#if defined(SAFE) || defined(ERROR)
+
+void VECTOR_IMPL(push_back_e) (VECTOR_NAME* v, VECTOR_T data, int* error) {
+    if (error != NULL) *error = 0;
+
+    if (v == NULL) {
+        if (error != NULL) *error = VERR_NULLPOINTER;
+        return;
+    }
+
+    if (v->index >= v->amount) {
+        v->amount = v->amount ? v->amount * 2 : 1;
+        v->data = realloc(v->data, v->amount * sizeof(VECTOR_T));
+
+        if (v->data == NULL) {
+            if (error != NULL) *error = VERR_OUTOFMEMORY;
+            return;
+        }
+    }
+
+    v->data[v->index++] = data;
+}
+
+void VECTOR_IMPL(insert_e)(VECTOR_NAME* v, VECTOR_T data, size_t index, int* error) {
+    if (error != NULL) *error = 0;
+    if (v == NULL) {
+        if (error != NULL) *error = VERR_NULLPOINTER;
+        return;
+    }
+
+    if (v->index >= v->amount) {
+        v->amount = v->amount ? v->amount * 2 : 1;
+        v->data = realloc(v->data, v->amount * sizeof(VECTOR_T));
+
+        if (v->data == NULL) {
+            if (error != NULL) *error = VERR_OUTOFMEMORY;
+            return;
+        }
+    }
+
+    if (index > v->index || index < 0) {
+        if (error != NULL) *error = VERR_OUTOFBOUNDS;
+        return;
+    }
+
+    for (size_t i = v->index;i > index;i--) {
+        v->data[i] = v->data[i - 1];
+    }
+
+    v->data[index] = data;
+    v->index++;
+}
+
+VECTOR_T VECTOR_IMPL(pop_back_e)(VECTOR_NAME* v, int* error) {
+    if (error != NULL) *error = 0;
+
+    if (v == NULL) {
+        if (error != NULL) *error = VERR_NULLPOINTER;
+        return NULL_VALUE;
+    }
+
+    if (v->index == 0) {
+        if (error != NULL) *error = VERR_OUTOFBOUNDS;
+        return NULL_VALUE;
+    }
+
+    return v->data[--v->index];
+}
+
+VECTOR_T VECTOR_IMPL(remove_e)(VECTOR_NAME* v, size_t index, int* error) {
+    if (error != NULL) *error = 0;
+
+    if (v == NULL) {
+        if (error != NULL) *error = VERR_NULLPOINTER;
+        return NULL_VALUE;
+    }
+
+    if (index < 0 || index >= v->index) {
+        if (error != NULL) *error = VERR_OUTOFBOUNDS;
+        return NULL_VALUE;
+    }
+
+    VECTOR_T store = v->data[index];
+    for (size_t i = index;i < v->index - 1;i++) {
+        v->data[i] = v->data[i + 1];
+    }
+    v->index--;
+
+    return store;
+}
+
+VECTOR_T VECTOR_IMPL(get_e)(VECTOR_NAME* v, size_t index, int* error) {
+    if (error != NULL) *error = 0;
+
+    if (v == NULL) {
+        if (error != NULL) *error = VERR_NULLPOINTER;
+        return NULL_VALUE;
+    }
+
+    if (index < 0 || index >= v->index) {
+        if (error != NULL) *error = VERR_OUTOFBOUNDS;
+    }
+
+    return v->data[index];
+}
+
+#endif
+
+#ifndef SAFE 
 void VECTOR_IMPL(push_back)(VECTOR_NAME* v, VECTOR_T data) {
     if (v->index >= v->amount) {
         v->amount = v->amount ? v->amount * 2 : 1;
@@ -186,7 +391,7 @@ void VECTOR_IMPL(insert)(VECTOR_NAME* v, VECTOR_T data, size_t index) {
     }
 
     for (size_t i = v->index;i > index;i--) {
-        v->data[i] = v->data[i-1];
+        v->data[i] = v->data[i - 1];
     }
 
     v->data[index] = data;
@@ -195,7 +400,7 @@ void VECTOR_IMPL(insert)(VECTOR_NAME* v, VECTOR_T data, size_t index) {
 
 VECTOR_T VECTOR_IMPL(pop_back)(VECTOR_NAME* v) {
     if (v->index == 0) {
-        return (VECTOR_T) { 0 };
+        return NULL_VALUE;
     }
 
     return v->data[--v->index];
@@ -203,7 +408,7 @@ VECTOR_T VECTOR_IMPL(pop_back)(VECTOR_NAME* v) {
 
 VECTOR_T VECTOR_IMPL(remove)(VECTOR_NAME* v, size_t index) {
     if (index < 0 || index >= v->index) {
-        return (VECTOR_T) { 0 };
+        return NULL_VALUE;
     }
 
     VECTOR_T store = v->data[index];
@@ -216,14 +421,11 @@ VECTOR_T VECTOR_IMPL(remove)(VECTOR_NAME* v, size_t index) {
 }
 
 #endif
+#endif
 
 #undef VECTOR_T
 #undef VECTOR_PREFIX
 #undef VECTOR_NAME
-#undef VECTOR_push_back
-#undef VECTOR_insert
-#undef VECTOR_pop_back
-#undef VECTOR_remove
 #undef IMPLEMENT
 #undef SAFE
 
