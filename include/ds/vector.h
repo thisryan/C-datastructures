@@ -79,3 +79,17 @@ VECTOR_T VECTOR_IMPL(pop_back)(VECTOR_NAME* v) {
 
     return v->data[--v->index];
 }
+
+VECTOR_T VECTOR_IMPL(remove)(VECTOR_NAME* v, size_t index) {
+    if (index < 0 || index >= v->index) {
+        return (VECTOR_T) { 0 };
+    }
+
+    VECTOR_T store = v->data[index];
+    for (size_t i = index;i < v->index - 1;i++) {
+        v->data[i] = v->data[i + 1];
+    }
+    v->index--;
+
+    return store;
+}
