@@ -93,3 +93,13 @@ VECTOR_T VECTOR_IMPL(remove)(VECTOR_NAME* v, size_t index) {
 
     return store;
 }
+
+#undef VECTOR_T
+#undef VECTOR_PREFIX
+#undef VECTOR_NAME
+#undef VECTOR_push_back
+#undef VECTOR_insert
+#undef VECTOR_pop_back
+#undef VECTOR_remove
+#undef IMPLEMENT
+#undef SAFE
