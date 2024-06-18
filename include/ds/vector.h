@@ -284,6 +284,29 @@ VECTOR_T VECTOR_IMPL(pop_back_e)(VECTOR_NAME* v, int* error) {
     return v->data[--v->index];
 }
 
+VECTOR_T VECTOR_IMPL(remove_e)(VECTOR_NAME* v, size_t index, int* error) {
+    if (error != NULL) *error = 0;
+
+    if (v == NULL) {
+        if (error != NULL) *error = VERR_NULLPOINTER;
+        return NULL_VALUE;
+    }
+
+    if (index < 0 || index >= v->index) {
+        if (error != NULL) *error = VERR_OUTOFBOUNDS;
+        return NULL_VALUE;
+    }
+
+    VECTOR_T store = v->data[index];
+    for (size_t i = index;i < v->index - 1;i++) {
+        v->data[i] = v->data[i + 1];
+    }
+    v->index--;
+
+    return store;
+}
+
+
 #endif
 
 #ifndef SAFE 
