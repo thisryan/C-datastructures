@@ -184,11 +184,24 @@ struct VECTOR_NAME {
 size_t VECTOR_IMPL(size)(VECTOR_NAME* v);
 void VECTOR_IMPL(delete)(VECTOR_NAME* v);
 
+#if defined(SAFE) || defined(ERROR)
+
+void VECTOR_IMPL(push_back_e) (VECTOR_NAME* v, VECTOR_T data, int* error);
+void VECTOR_IMPL(insert_e)(VECTOR_NAME* v, VECTOR_T data, size_t index, int* error);
+VECTOR_T VECTOR_IMPL(pop_back_e)(VECTOR_NAME* v, int* error);
+VECTOR_T VECTOR_IMPL(remove_e)(VECTOR_NAME* v, size_t index, int* error);
+VECTOR_T VECTOR_IMPL(get_e)(VECTOR_NAME* v, size_t index, int* error);
+
+#endif
+
+#ifndef SAFE
 
 void VECTOR_IMPL(push_back)(VECTOR_NAME* v, VECTOR_T data);
 void VECTOR_IMPL(insert)(VECTOR_NAME* v, VECTOR_T data, size_t index);
 VECTOR_T VECTOR_IMPL(pop_back)(VECTOR_NAME* v);
 VECTOR_T VECTOR_IMPL(remove)(VECTOR_NAME* v, size_t index);
+
+#endif
 
 #ifdef IMPLEMENT
 
