@@ -7,15 +7,14 @@ BUILD_DIR = build
 SRCS = $(wildcard $(SRC_DIR)/*.c)
 OBJS = $(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/%.o, $(SRCS))
 
-EXAMPLES = $(wildcard $(EXAMPLE_DIR)/*.c)
-TARGETS = $(patsubst $(EXAMPLE_DIR)/%.c, $(BUILD_DIR)/%, $(EXAMPLES))
+EXAMPLE_DIRS = $(dir $(shell find ./examples/ -mindepth 2 -type f -name 'Makefile'))
 
-.PHONY: all clean docs
+.PHONY: all clean docs $(EXAMPLE_DIRS)
 
-all: $(OBJS) $(TARGETS)
+all: $(OBJS) $(TARGETS) $(EXAMPLE_DIRS)
 
-$(BUILD_DIR)/%: $(EXAMPLE_DIR)/%.c $(OBJS) | $(BUILD_DIR) 
-	$(CC) $(CFLAGS) $< -o $@ $(OBJS)
+$(EXAMPLE_DIRS):
+	$(MAKE) -C $@
 
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c | $(BUILD_DIR) 
 	$(CC) $(CFLAGS) -c $< -o $@
