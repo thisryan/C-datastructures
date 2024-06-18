@@ -8,6 +8,106 @@
  *
  * @copyright Copyright (c) 2024
  */
+
+ // This block only exists for better documentation
+#ifdef _DOXYGEN_
+
+/**
+ * @brief The exported Vector type
+ *
+ */
+typedef struct VECTOR_NAME {
+    /**
+     * @brief The items
+     *
+     */
+    VECTOR_T* data;
+
+    /**
+     * @brief The index behind the last written element
+     *
+     */
+    size_t index;
+
+    /**
+     * @brief The size of the data buffer
+     *
+     */
+    size_t size;
+} VECTOR_NAME;
+
+/**
+ * @brief Inserts element at the end of the vector
+ *
+ * @param v Pointer to the vector
+ * @param data element to be added
+ */
+void VECTOR_PREFIX_push_back(VECTOR_NAME* v, VECTOR_T data);
+
+/**
+ * @brief Insert element at specific index
+ *
+ * @param v Pointer to the vector
+ * @param data element to be added
+ * @param index the index of the insertion
+ */
+void VECTOR_PREFIX_insert(VECTOR_NAME* v, VECTOR_T data, size_t index);
+
+/**
+ * @brief Remove element from the end of the vector
+ *
+ * @param v Pointer to the vector
+ * @return VECTOR_T The removed element
+ */
+VECTOR_T VECTOR_PREFIX_pop_back(VECTOR_NAME* v);
+
+/**
+ * @brief Remove element from specified index
+ *
+ * @param v Pointer to the vector
+ * @param index the index of the deletion
+ * @return VECTOR_T the removed element
+ */
+VECTOR_T VECTOR_PREFIX_remove(VECTOR_NAME* v, size_t index);
+
+
+/**
+ * @brief This is the type which is stored inside the vector. This must be defined
+ *
+ */
+#define VECTOR_T
+
+ /**
+  * @brief The name of the created Vector Type. If not defined the name will be vector_VECTOR_T
+  *
+  */
+#define VECTOR_NAME
+
+  /**
+   * @brief The Prefix every function which operates on the vector has. If not defined the Prefix will be VECTOR_NAME
+   *
+   */
+#define VECTOR_PREFIX
+
+   /**
+    * @brief If defined there are two sets of functions, one with errors post fixed by _e and one without errors
+    *
+    */
+#define ERROR
+
+    /**
+     * @brief If defined the only defined functions are the error functions
+     *
+     */
+#define SAFE
+
+     /**
+      * @brief If set the functions are implemented
+      *
+      */
+#define IMPLEMENT
+#endif
+
 #ifndef VECTOR_HEADER_H
 // \cond
 #define VECTOR_HEADER_H
