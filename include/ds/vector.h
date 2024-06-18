@@ -185,8 +185,8 @@ void VECTOR_IMPL(insert)(VECTOR_NAME* v, VECTOR_T data, size_t index) {
         return;
     }
 
-    for (size_t i = index;i < v->index;i++) {
-        v->data[i + 1] = v->data[i];
+    for (size_t i = v->index;i > index;i--) {
+        v->data[i] = v->data[i-1];
     }
 
     v->data[index] = data;
