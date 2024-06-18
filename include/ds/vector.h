@@ -121,6 +121,41 @@ VECTOR_T VECTOR_PREFIX_remove(VECTOR_NAME* v, size_t index);
 #define VECTOR_COMB2(pre, word) pre##word
 // \endcond
 
+/**
+ * @brief Error if the vector argument is NULL
+ *
+ */
+#define VERR_NULLPOINTER -1
+
+ /**
+  * @brief Error if out of memory
+  *
+  */
+#define VERR_OUTOFMEMORY -2
+
+  /**
+   * @brief Error if index is out of bounds
+   *
+   */
+#define VERR_OUTOFBOUNDS -3
+
+   /**
+    * @brief Get the error text object
+    *
+    * @param error the error which occured
+    * @return char* the error text
+    */
+char* get_error_text(int error) {
+    switch (error) {
+    case VERR_NULLPOINTER:
+        return "Input vector was NULL";
+    case VERR_OUTOFBOUNDS:
+        return "Index was out of bounds";
+    case VERR_OUTOFMEMORY:
+        return "out of memory";
+    }
+}
+
 #endif
 
 // \cond
