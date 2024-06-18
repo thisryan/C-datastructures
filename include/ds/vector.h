@@ -1,3 +1,13 @@
+/**
+ * @file
+
+ * @author  Adrian O
+ * @brief
+ * @version 1
+ * @date 2024-06-18
+ *
+ * @copyright Copyright (c) 2024
+ */
 #ifndef VECTOR_HEADER_H
 // \cond
 #define VECTOR_HEADER_H
