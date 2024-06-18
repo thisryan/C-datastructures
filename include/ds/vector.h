@@ -344,7 +344,7 @@ void VECTOR_IMPL(insert)(VECTOR_NAME* v, VECTOR_T data, size_t index) {
     }
 
     for (size_t i = v->index;i > index;i--) {
-        v->data[i] = v->data[i-1];
+        v->data[i] = v->data[i - 1];
     }
 
     v->data[index] = data;
@@ -353,7 +353,7 @@ void VECTOR_IMPL(insert)(VECTOR_NAME* v, VECTOR_T data, size_t index) {
 
 VECTOR_T VECTOR_IMPL(pop_back)(VECTOR_NAME* v) {
     if (v->index == 0) {
-        return (VECTOR_T) { 0 };
+        return NULL_VALUE;
     }
 
     return v->data[--v->index];
@@ -361,7 +361,7 @@ VECTOR_T VECTOR_IMPL(pop_back)(VECTOR_NAME* v) {
 
 VECTOR_T VECTOR_IMPL(remove)(VECTOR_NAME* v, size_t index) {
     if (index < 0 || index >= v->index) {
-        return (VECTOR_T) { 0 };
+        return NULL_VALUE;
     }
 
     VECTOR_T store = v->data[index];
