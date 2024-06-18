@@ -70,6 +70,53 @@ VECTOR_T VECTOR_PREFIX_pop_back(VECTOR_NAME* v);
  */
 VECTOR_T VECTOR_PREFIX_remove(VECTOR_NAME* v, size_t index);
 
+/**
+ * @brief Inserts element at the end of the vector with error
+ *
+ * @param v Pointer to the vector
+ * @param data element to be added
+ * @param error Error 0 if no error occured <0 if an error occured, takes on of VERR_ values
+ */
+void VECTOR_PREFIX_push_back_e(VECTOR_NAME* v, VECTOR_T data, int* error);
+
+/**
+ * @brief Insert element at specific index with error
+ *
+ * @param v Pointer to the vector
+ * @param data element to be added
+ * @param index the index of the insertion
+ * @param error Error 0 if no error occured <0 if an error occured, takes on of VERR_ values
+ */
+void VECTOR_PREFIX_insert_e(VECTOR_NAME* v, VECTOR_T data, size_t index, int* error);
+
+/**
+ * @brief Remove element from the end of the vector with error
+ *
+ * @param v Pointer to the vector
+ * @param error Error 0 if no error occured <0 if an error occured, takes on of VERR_ values
+ * @return VECTOR_T the removed element
+ */
+VECTOR_T VECTOR_PREFIX_pop_back_e(VECTOR_NAME* v, int* error);
+
+/**
+ * @brief Remove element from specified index with error
+ *
+ * @param v Pointer to the vector
+ * @param index the index of the deletion
+ * @param error Error 0 if no error occured <0 if an error occured, takes on of VERR_ values
+ * @return VECTOR_T the removed element
+ */
+VECTOR_T VECTOR_PREFIX_remove_e(VECTOR_NAME* v, size_t index, int* error);
+
+/**
+ * @brief
+ *
+ * @param v Pointer to the vector
+ * @param index the index to get
+ * @param error Error 0 if no error occured <0 if an error occured, takes on of VERR_ values
+ * @return VECTOR_T The value at <index> if no error occured
+ */
+VECTOR_T VECTOR_PREFIX_get_e(VECTOR_NAME* v, size_t index, int* error);
 
 /**
  * @brief This is the type which is stored inside the vector. This must be defined
@@ -109,7 +156,7 @@ VECTOR_T VECTOR_PREFIX_remove(VECTOR_NAME* v, size_t index);
 #endif
 
 #ifndef VECTOR_HEADER_H
-// \cond
+      // \cond
 #define VECTOR_HEADER_H
 // \endcond
 
