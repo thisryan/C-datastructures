@@ -267,6 +267,23 @@ void VECTOR_IMPL(insert_e)(VECTOR_NAME* v, VECTOR_T data, size_t index, int* err
     v->data[index] = data;
     v->index++;
 }
+
+VECTOR_T VECTOR_IMPL(pop_back_e)(VECTOR_NAME* v, int* error) {
+    if (error != NULL) *error = 0;
+
+    if (v == NULL) {
+        if (error != NULL) *error = VERR_NULLPOINTER;
+        return NULL_VALUE;
+    }
+
+    if (v->index == 0) {
+        if (error != NULL) *error = VERR_OUTOFBOUNDS;
+        return NULL_VALUE;
+    }
+
+    return v->data[--v->index];
+}
+
 #endif
 
 #ifndef SAFE 
