@@ -54,6 +54,8 @@ void VECTOR_IMPL(insert)(VECTOR_NAME* v, VECTOR_T data, size_t index);
 VECTOR_T VECTOR_IMPL(pop_back)(VECTOR_NAME* v);
 VECTOR_T VECTOR_IMPL(remove)(VECTOR_NAME* v, size_t index);
 
+#ifdef IMPLEMENT
+
 size_t VECTOR_IMPL(size)(VECTOR_NAME* v) {
     return v->index;
 }
@@ -112,6 +114,8 @@ VECTOR_T VECTOR_IMPL(remove)(VECTOR_NAME* v, size_t index) {
 
     return store;
 }
+
+#endif
 
 #undef VECTOR_T
 #undef VECTOR_PREFIX
