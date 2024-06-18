@@ -30,3 +30,8 @@ struct VECTOR_NAME {
     size_t index;
     size_t amount;
 };
+
+void VECTOR_IMPL(push_back)(VECTOR_NAME* v, VECTOR_T data);
+void VECTOR_IMPL(insert)(VECTOR_NAME* v, VECTOR_T data, size_t index);
+VECTOR_T VECTOR_IMPL(pop_back)(VECTOR_NAME* v);
+VECTOR_T VECTOR_IMPL(remove)(VECTOR_NAME* v, size_t index);
