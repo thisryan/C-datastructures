@@ -215,6 +215,31 @@ void VECTOR_IMPL(delete)(VECTOR_NAME* v) {
     v->index = 0;
 }
 
+#if defined(SAFE) || defined(ERROR)
+
+void VECTOR_IMPL(push_back_e) (VECTOR_NAME* v, VECTOR_T data, int* error) {
+    if (error != NULL) *error = 0;
+
+    if (v == NULL) {
+        if (error != NULL) *error = VERR_NULLPOINTER;
+        return;
+    }
+
+    if (v->index >= v->amount) {
+        v->amount = v->amount ? v->amount * 2 : 1;
+        v->data = realloc(v->data, v->amount * sizeof(VECTOR_T));
+
+        if (v->data == NULL) {
+            if (error != NULL) *error = VERR_OUTOFMEMORY;
+            return;
+        }
+    }
+
+    v->data[v->index++] = data;
+}
+#endif
+
+#ifndef SAFE 
 void VECTOR_IMPL(push_back)(VECTOR_NAME* v, VECTOR_T data) {
     if (v->index >= v->amount) {
         v->amount = v->amount ? v->amount * 2 : 1;
@@ -264,6 +289,7 @@ VECTOR_T VECTOR_IMPL(remove)(VECTOR_NAME* v, size_t index) {
     return store;
 }
 
+#endif
 #endif
 
 #undef VECTOR_T
