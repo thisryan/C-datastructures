@@ -23,6 +23,7 @@
 
 #endif
 
+// \cond
 #ifndef VECTOR_T
 #error "VECTOR_T must be defined"
 #endif
@@ -34,6 +35,9 @@
 #ifndef VECTOR_PREFIX
 #define VECTOR_PREFIX VECTOR_COMB1(VECTOR_NAME, _)
 #endif
+// \endcond
+
+// \cond
 typedef struct VECTOR_NAME VECTOR_NAME;
 struct VECTOR_NAME {
     VECTOR_T* data;
@@ -113,3 +117,5 @@ VECTOR_T VECTOR_IMPL(remove)(VECTOR_NAME* v, size_t index) {
 #undef VECTOR_remove
 #undef IMPLEMENT
 #undef SAFE
+
+// \endcond
