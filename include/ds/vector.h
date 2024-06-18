@@ -44,3 +44,12 @@ void VECTOR_IMPL(delete)(VECTOR_NAME* v) {
     v->amount = 0;
     v->index = 0;
 }
+
+void VECTOR_IMPL(push_back)(VECTOR_NAME* v, VECTOR_T data) {
+    if (v->index >= v->amount) {
+        v->amount = v->amount ? v->amount * 2 : 1;
+        v->data = realloc(v->data, v->amount * sizeof(VECTOR_T));
+    }
+
+    v->data[v->index++] = data;
+}
