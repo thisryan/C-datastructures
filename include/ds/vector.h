@@ -306,6 +306,20 @@ VECTOR_T VECTOR_IMPL(remove_e)(VECTOR_NAME* v, size_t index, int* error) {
     return store;
 }
 
+VECTOR_T VECTOR_IMPL(get_e)(VECTOR_NAME* v, size_t index, int* error) {
+    if (error != NULL) *error = 0;
+
+    if (v == NULL) {
+        if (error != NULL) *error = VERR_NULLPOINTER;
+        return NULL_VALUE;
+    }
+
+    if (index < 0 || index >= v->index) {
+        if (error != NULL) *error = VERR_OUTOFBOUNDS;
+    }
+
+    return v->data[index];
+}
 
 #endif
 
