@@ -10,7 +10,7 @@ OBJS = $(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/%.o, $(SRCS))
 EXAMPLES = $(wildcard $(EXAMPLE_DIR)/*.c)
 TARGETS = $(patsubst $(EXAMPLE_DIR)/%.c, $(BUILD_DIR)/%, $(EXAMPLES))
 
-.PHONY: all clean
+.PHONY: all clean docs
 
 all: $(OBJS) $(TARGETS)
 
@@ -22,6 +22,9 @@ $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c | $(BUILD_DIR)
 
 $(BUILD_DIR):
 	mkdir -p $(BUILD_DIR)
+
+docs: 
+	doxygen ds.bak
 
 clean:
 	rm -rf $(BUILD_DIR) $(TARGET)
