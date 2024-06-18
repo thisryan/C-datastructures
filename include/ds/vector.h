@@ -119,6 +119,7 @@ VECTOR_T VECTOR_PREFIX_remove(VECTOR_NAME* v, size_t index);
 #define VECTOR_IMPL(word) VECTOR_COMB1(VECTOR_PREFIX,word)
 #define VECTOR_COMB1(pre, word) VECTOR_COMB2(pre, word)
 #define VECTOR_COMB2(pre, word) pre##word
+#define NULL_VALUE (VECTOR_T) { 0 };
 // \endcond
 
 /**
