@@ -71,3 +71,11 @@ void VECTOR_IMPL(insert)(VECTOR_NAME* v, VECTOR_T data, size_t index) {
     v->data[index] = data;
     v->index++;
 }
+
+VECTOR_T VECTOR_IMPL(pop_back)(VECTOR_NAME* v) {
+    if (v->index == 0) {
+        return (VECTOR_T) { 0 };
+    }
+
+    return v->data[--v->index];
+}
