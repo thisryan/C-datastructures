@@ -45,10 +45,15 @@ struct VECTOR_NAME {
     size_t amount;
 };
 
+size_t VECTOR_IMPL(size)(VECTOR_NAME* v);
+void VECTOR_IMPL(delete)(VECTOR_NAME* v);
+
+
 void VECTOR_IMPL(push_back)(VECTOR_NAME* v, VECTOR_T data);
 void VECTOR_IMPL(insert)(VECTOR_NAME* v, VECTOR_T data, size_t index);
 VECTOR_T VECTOR_IMPL(pop_back)(VECTOR_NAME* v);
 VECTOR_T VECTOR_IMPL(remove)(VECTOR_NAME* v, size_t index);
+
 size_t VECTOR_IMPL(size)(VECTOR_NAME* v) {
     return v->index;
 }
