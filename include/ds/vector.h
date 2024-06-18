@@ -12,3 +12,15 @@
 // \endcond
 
 #endif
+
+#ifndef VECTOR_T
+#error "VECTOR_T must be defined"
+#endif
+
+#ifndef VECTOR_NAME
+#define VECTOR_NAME VECTOR_COMB1(VECTOR_COMB1(vector,_), VECTOR_T)
+#endif
+
+#ifndef VECTOR_PREFIX
+#define VECTOR_PREFIX VECTOR_COMB1(VECTOR_NAME, _)
+#endif
