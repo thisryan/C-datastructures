@@ -53,3 +53,21 @@ void VECTOR_IMPL(push_back)(VECTOR_NAME* v, VECTOR_T data) {
 
     v->data[v->index++] = data;
 }
+
+void VECTOR_IMPL(insert)(VECTOR_NAME* v, VECTOR_T data, size_t index) {
+    if (v->index >= v->amount) {
+        v->amount = v->amount ? v->amount * 2 : 1;
+        v->data = realloc(v->data, v->amount * sizeof(VECTOR_T));
+    }
+
+    if (index > v->index || index < 0) {
+        return;
+    }
+
+    for (size_t i = index;i < v->index;i++) {
+        v->data[i + 1] = v->data[i];
+    }
+
+    v->data[index] = data;
+    v->index++;
+}
