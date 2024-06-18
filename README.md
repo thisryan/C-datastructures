@@ -13,3 +13,13 @@ The documentation is build with doxygen and can be build with:
 ```bash
 make docs
 ```
+
+## Examples
+
+Examples can be found in the examples folder.
+
+Examples can be build with:
+
+```bash
+make
+```
