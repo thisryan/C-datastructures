@@ -65,6 +65,19 @@ size_t _ringbuffer_right(RINGBUFFER_NAME *rb, size_t index) {
     return index + 1;
 }
 
+void RINGBUFFER_IMPL(push_front)(RINGBUFFER_NAME* rb, RINGBUFFER_T data) {
+    if(rb->size == rb->amount) {
+        //TODO: RESIZE
+        return;
+    }
+
+    rb->head = _ringbuffer_left(rb, rb->head);
+    rb->data[rb->head] = data;
+    rb->size++;
+}
+
+
+
 #endif
 
 #undef RINGBUFFER_T
