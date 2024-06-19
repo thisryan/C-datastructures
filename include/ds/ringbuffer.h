@@ -112,6 +112,22 @@ RINGBUFFER_T RINGBUFFER_IMPL(pop_back)(RINGBUFFER_NAME* rb) {
     return rb->data[rb->tail];
 }
 
+RINGBUFFER_T RINGBUFFER_IMPL(front)(RINGBUFFER_NAME* rb) {
+    if(rb->head == rb->tail){
+        return RINGBUFFER_NULL_VALUE;
+    }
+
+    return rb->data[rb->head];
+}
+
+RINGBUFFER_T RINGBUFFER_IMPL(back)(RINGBUFFER_NAME* rb) {
+    if(rb->head == rb->tail){
+        return RINGBUFFER_NULL_VALUE;
+    }
+
+    return rb->data[_ringbuffer_left(rb, rb->tail)];
+}
+
 #endif
 
 #undef RINGBUFFER_T
