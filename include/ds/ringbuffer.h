@@ -9,3 +9,14 @@
 
 #endif
 
+#ifndef RINGBUFFER_T
+#error "RINGBUFFER_T must be defined"
+#endif
+
+#ifndef RINGBUFFER_NAME
+#define RINBUFFER_NAME RINGBUFFER_COMB1(RINGBUFFER_COMB1(ringbuffer,_), RINGBUFFER_T)
+#endif
+
+#ifndef RINGBUFFER_PREFIX
+#define RINGBUFFER_PREFIX RINGBUFFER_COMB1(RINGBUFFER_NAME, _)
+#endif
