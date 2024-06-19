@@ -76,6 +76,16 @@ void RINGBUFFER_IMPL(push_front)(RINGBUFFER_NAME* rb, RINGBUFFER_T data) {
     rb->size++;
 }
 
+void RINGBUFFER_IMPL(push_back)(RINGBUFFER_NAME* rb, RINGBUFFER_T data) {
+    if(rb->size == rb->amount) {
+        //TODO: RESIZE
+        return;
+    }
+
+    rb->data[rb->tail] = data;
+    rb->tail = _ringbuffer_right(rb, rb->tail);
+    rb->size++;
+}
 
 
 #endif
