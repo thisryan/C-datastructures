@@ -27,6 +27,7 @@ struct RINGBUFFER_NAME {
     size_t amount;
     size_t head;
     size_t tail;
+    size_t size;
 };  
 
 
