@@ -67,8 +67,15 @@ size_t _ringbuffer_right(RINGBUFFER_NAME *rb, size_t index) {
 
 void RINGBUFFER_IMPL(push_front)(RINGBUFFER_NAME* rb, RINGBUFFER_T data) {
     if(rb->size == rb->amount) {
-        //TODO: RESIZE
-        return;
+        size_t middle_index = rb->amount;
+        rb->amount *= rb->amount == 0 ? 1 : 2;
+        rb->data = realloc(rb->data, rb->amount * sizeof(RINGBUFFER_T));
+        if(rb->tail < rb->head){
+            for(int i = 0;i < rb->tail;i++){
+                rb->data[middle_index + i] = rb->data[i];
+            }
+            rb->tail = middle_index + rb->tail;
+        }
     }
 
     rb->head = _ringbuffer_left(rb, rb->head);
@@ -78,8 +85,15 @@ void RINGBUFFER_IMPL(push_front)(RINGBUFFER_NAME* rb, RINGBUFFER_T data) {
 
 void RINGBUFFER_IMPL(push_back)(RINGBUFFER_NAME* rb, RINGBUFFER_T data) {
     if(rb->size == rb->amount) {
-        //TODO: RESIZE
-        return;
+        size_t middle_index = rb->amount;
+        rb->amount *= rb->amount == 0 ? 1 : 2;
+        rb->data = realloc(rb->data, rb->amount * sizeof(RINGBUFFER_T));
+        if(rb->tail < rb->head){
+            for(int i = 0;i < rb->tail;i++){
+                rb->data[middle_index + i] = rb->data[i];
+            }
+            rb->tail = middle_index + rb->tail;
+        }
     }
 
     rb->data[rb->tail] = data;
