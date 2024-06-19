@@ -87,6 +87,18 @@ void RINGBUFFER_IMPL(push_back)(RINGBUFFER_NAME* rb, RINGBUFFER_T data) {
     rb->size++;
 }
 
+RINGBUFFER_T RINGBUFFER_IMPL(pop_front)(RINGBUFFER_NAME* rb) {
+    size_t prev_index = _ringbuffer_right(rb, rb->head);
+
+    if(rb->head == rb->tail ){
+        return RINGBUFFER_NULL_VALUE;
+    }
+
+    rb->size--;
+    RINGBUFFER_T save = rb->data[rb->head];
+    rb->head = prev_index;
+    return save;
+}
 
 #endif
 
