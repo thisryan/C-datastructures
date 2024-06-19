@@ -21,6 +21,16 @@
 #define RINGBUFFER_PREFIX RINGBUFFER_COMB1(RINGBUFFER_NAME, _)
 #endif
 
+typedef struct RINGBUFFER_NAME RINGBUFFER_NAME;
+struct RINGBUFFER_NAME {
+    RINGBUFFER_T* data;
+    size_t amount;
+    size_t head;
+    size_t tail;
+};  
+
+
+
 #undef RINGBUFFER_T
 #undef RINGBUFFER_NAME
 #undef RINGBUFFER_PREFIX
