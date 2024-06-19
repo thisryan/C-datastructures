@@ -100,6 +100,18 @@ RINGBUFFER_T RINGBUFFER_IMPL(pop_front)(RINGBUFFER_NAME* rb) {
     return save;
 }
 
+RINGBUFFER_T RINGBUFFER_IMPL(pop_back)(RINGBUFFER_NAME* rb) {
+    size_t prev_index = _ringbuffer_left(rb, rb->tail);
+
+    if(rb->tail == rb->head) {
+        return RINGBUFFER_NULL_VALUE;
+    }
+
+    rb->size--;
+    rb->tail = prev_index;
+    return rb->data[rb->tail];
+}
+
 #endif
 
 #undef RINGBUFFER_T
