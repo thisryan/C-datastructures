@@ -50,6 +50,21 @@ size_t RINGBUFFER_IMPL(size)(RINGBUFFER_NAME* rb) {
 size_t RINGBUFFER_IMPL(delete)(RINGBUFFER_NAME* rb) {
     free(rb->data);
 }
+
+size_t _ringbuffer_left(RINGBUFFER_NAME *rb, size_t index) {
+    if(index == 0) {
+        return rb->amount-1;
+    }
+    return index - 1;
+}
+
+size_t _ringbuffer_right(RINGBUFFER_NAME *rb, size_t index) {
+    if(index == rb->amount-1) {
+        return 0;
+    }
+    return index + 1;
+}
+
 #endif
 
 #undef RINGBUFFER_T
