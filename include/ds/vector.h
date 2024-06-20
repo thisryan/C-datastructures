@@ -166,7 +166,7 @@ VECTOR_T VECTOR_PREFIX_get_e(VECTOR_NAME* v, size_t index, int* error);
 #define VECTOR_IMPL(word) VECTOR_COMB1(VECTOR_PREFIX,word)
 #define VECTOR_COMB1(pre, word) VECTOR_COMB2(pre, word)
 #define VECTOR_COMB2(pre, word) pre##word
-#define NULL_VALUE (VECTOR_T) { 0 };
+#define VECTOR_NULL_VALUE (VECTOR_T) { 0 };
 // \endcond
 
 /**
@@ -315,17 +315,18 @@ void VECTOR_IMPL(insert_e)(VECTOR_NAME* v, VECTOR_T data, size_t index, int* err
     v->index++;
 }
 
+// TODO: shrinking
 VECTOR_T VECTOR_IMPL(pop_back_e)(VECTOR_NAME* v, int* error) {
     if (error != NULL) *error = 0;
 
     if (v == NULL) {
         if (error != NULL) *error = VERR_NULLPOINTER;
-        return NULL_VALUE;
+        return VECTOR_NULL_VALUE;
     }
 
     if (v->index == 0) {
         if (error != NULL) *error = VERR_OUTOFBOUNDS;
-        return NULL_VALUE;
+        return VECTOR_NULL_VALUE;
     }
 
     return v->data[--v->index];
@@ -336,12 +337,12 @@ VECTOR_T VECTOR_IMPL(remove_e)(VECTOR_NAME* v, size_t index, int* error) {
 
     if (v == NULL) {
         if (error != NULL) *error = VERR_NULLPOINTER;
-        return NULL_VALUE;
+        return VECTOR_NULL_VALUE;
     }
 
     if (index < 0 || index >= v->index) {
         if (error != NULL) *error = VERR_OUTOFBOUNDS;
-        return NULL_VALUE;
+        return VECTOR_NULL_VALUE;
     }
 
     VECTOR_T store = v->data[index];
@@ -358,7 +359,7 @@ VECTOR_T VECTOR_IMPL(get_e)(VECTOR_NAME* v, size_t index, int* error) {
 
     if (v == NULL) {
         if (error != NULL) *error = VERR_NULLPOINTER;
-        return NULL_VALUE;
+        return VECTOR_NULL_VALUE;
     }
 
     if (index < 0 || index >= v->index) {
@@ -400,7 +401,7 @@ void VECTOR_IMPL(insert)(VECTOR_NAME* v, VECTOR_T data, size_t index) {
 
 VECTOR_T VECTOR_IMPL(pop_back)(VECTOR_NAME* v) {
     if (v->index == 0) {
-        return NULL_VALUE;
+        return VECTOR_NULL_VALUE;
     }
 
     return v->data[--v->index];
@@ -408,7 +409,7 @@ VECTOR_T VECTOR_IMPL(pop_back)(VECTOR_NAME* v) {
 
 VECTOR_T VECTOR_IMPL(remove)(VECTOR_NAME* v, size_t index) {
     if (index < 0 || index >= v->index) {
-        return NULL_VALUE;
+        return VECTOR_NULL_VALUE;
     }
 
     VECTOR_T store = v->data[index];
