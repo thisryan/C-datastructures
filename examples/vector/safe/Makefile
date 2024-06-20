@@ -9,4 +9,4 @@ OBJS = $(wildcard $(BUILD_DIR)/*.o)
 all: $(BUILD_DIR)/$(TARGET)
 
 $(BUILD_DIR)/$(TARGET): main.c $(OBJS)
-	$(CC) -o $@ $^ -I $(INCLUDE_DIR)
+	$(CC) -o $@ $^ -I $(INCLUDE_DIR) -std=c11
