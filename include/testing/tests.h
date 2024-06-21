@@ -9,6 +9,8 @@ Testing suite
 #include <stdlib.h>
 #include <stdio.h>
 
+//TODO: add simple functionality for quickly constructing error messages out of context data
+
 #define COMB1(pre, word) COMB2(pre, word)
 #define COMB2(pre, word) pre##word
 
