@@ -201,6 +201,8 @@ char* get_error_text(int error) {
         return "Index was out of bounds";
     case VERR_OUTOFMEMORY:
         return "out of memory";
+    default:
+        return "Unkown error";
     }
 }
 
